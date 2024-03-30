@@ -1,10 +1,10 @@
 package main
 
 import (
-	"flag"
-	"os"
 	"encoding/json"
+	"flag"
 	"log"
+	"os"
 )
 
 // Load in from config file
@@ -70,12 +70,5 @@ func main() {
 	CheckSettings(settings)
 
 	discord := CreateDiscord(settings.Token)
-
-	msg := new(CreateMessagePayload)
-	msg.Content = "Testing"
-	response, err := discord.CreateMessage(settings.Channels[0], msg)
-
-	if err == nil {
-		log.Printf("%s", response.Status)
-	}
+	StartBot(discord, settings)
 }
