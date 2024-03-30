@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const DISCORD_URL string = "https://discord.com/api/v10"
+const DISCORD_URL string = "https://discord.com/api"
 const MAX_MSG_LEN = 2000
 
 type Discord struct {
@@ -61,8 +61,8 @@ func (this Discord) CreateMessage(channel string, payload *CreateMessagePayload)
 }
 
 func (this Discord) MakeRequest(request *http.Request) (*http.Response, error) {
-	request.Header.Add("Authorization", fmt.Sprintf("Bot: %s", this.token))
-	request.Header.Add("User-agent", "DiscordBot (Helldivers2-Bot; 1)")
+	request.Header["Authorization"] = []string{fmt.Sprintf("Bot %s", this.token)}
+	request.Header["User-Agent"] = []string{"DiscordBot (Helldivers-Bot, 0)"}
 
 	client := &http.Client{}
 	return client.Do(request)

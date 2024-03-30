@@ -5,5 +5,5 @@ import (
 )
 
 func SetJson(request *http.Request) {
-	request.Header.Add("Content-Type", "application/json")
+	request.Header["Content-Type"] = []string{"application/json"}
 }
