@@ -5,7 +5,7 @@ import (
 )
 
 // Ref: https://helldiverstrainingmanual.com/api
-const HELLDIVERS_URL string = "https://helldiverstrainingmanual.com/api/v1/war"
+const HELLDIVERS_URL string = "https://helldiverstrainingmanual.com/api/v1"
 
 type WarStatusResponse struct {
 	WarId            int     `json:"warId"`
@@ -40,9 +40,36 @@ type WarInfoResponse struct {
 	} `json:"planetInfos"`
 }
 
+type WarCampaignResponse []struct {
+	PlanetIndex int     `json:"planetIndex"`
+	Name        string  `json:"name"`
+	Faction     string  `json:"faction"`
+	Players     int     `json:"players"`
+	Health      int     `json:"health"`
+	MaxHealth   int     `json:"maxHealth"`
+	Percentage  float32 `json:"percentage"`
+	Defense     bool    `json:"defense"`
+	MajorOrder  bool    `json:"majorOrder"`
+	Biome       struct {
+		Slug        string `json:"slug"`
+		Description string `json:"description"`
+	} `json:"biome"`
+	ExpireDateTime int `json:"expireDateTime"`
+}
+
+type PlanetsResponse struct {
+	Name           string `json:"name"`
+	Sector         string `json:"sector"`
+	Biome          string `json:"biome"`
+	Environmentals []struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+	} `json:"environmentals"`
+}
+
 // Response should return "WarStatusResponse"
 func GetWarStatus() (*http.Response, error) {
-	url := HELLDIVERS_URL + "/status"
+	url := HELLDIVERS_URL + "/war/status"
 
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 
@@ -55,9 +82,29 @@ func GetWarStatus() (*http.Response, error) {
 
 // Response should return "WarInfoResponse"
 func GetWarInfo() (*http.Response, error) {
-	url := HELLDIVERS_URL + "/info"
+	url := HELLDIVERS_URL + "/war/info"
 
 	request, err := http.NewRequest(http.MethodGet, url, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return MakeRequest(request)
+}
+
+func GetWarCampaign() (*http.Response, error) {
+	url := HELLDIVERS_URL + "/war/campaign"
+
+	if err != nil {
+		return nil, err
+	}
+
+	return MakeRequest(request)
+}
+
+func GetPlanets() (*http.Response, error) {
+	url := HELLDIVERS_URL + "/planets"
 
 	if err != nil {
 		return nil, err
