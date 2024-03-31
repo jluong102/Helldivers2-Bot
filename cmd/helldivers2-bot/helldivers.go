@@ -54,7 +54,7 @@ type WarCampaignResponse []struct {
 		Slug        string `json:"slug"`
 		Description string `json:"description"`
 	} `json:"biome"`
-	ExpireDateTime int `json:"expireDateTime"`
+	ExpireDateTime float32 `json:"expireDateTime"`
 }
 
 type PlanetsResponse struct {
@@ -96,6 +96,9 @@ func GetWarInfo() (*http.Response, error) {
 func GetWarCampaign() (*http.Response, error) {
 	url := HELLDIVERS_URL + "/war/campaign"
 
+	
+	request, err := http.NewRequest(http.MethodGet, url, nil)
+
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +108,8 @@ func GetWarCampaign() (*http.Response, error) {
 
 func GetPlanets() (*http.Response, error) {
 	url := HELLDIVERS_URL + "/planets"
+
+	request, err := http.NewRequest(http.MethodGet, url, nil)
 
 	if err != nil {
 		return nil, err

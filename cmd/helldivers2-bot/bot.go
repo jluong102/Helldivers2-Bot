@@ -57,11 +57,11 @@ func getParsedCampaignInfo() *WarCampaignResponse {
 func createCampaignMsg(info *WarCampaignResponse) []string {
 	var planetMsg []string
 
-	for _, i := range info {
+	for _, i := range *info {
 		msg := "```\n"
 		msg += fmt.Sprintf("Planet: %s\n", i.Name)
-		msg += fmt.Sprintf("Health: %d/%d (%f)\n", i.Health, i.MaxHealth, i.Percentage)
-		msg += fmt.Sprintf("Defense: %t", i.Defense)
+		msg += fmt.Sprintf("Health: %d/%d (%f%%)\n", i.Health, i.MaxHealth, i.Percentage)
+		msg += fmt.Sprintf("Defense: %t\n", i.Defense)
 		msg += fmt.Sprintf("Major Order: %t\n", i.MajorOrder)
 		msg += fmt.Sprintf("Biome: %s\n", i.Biome.Slug)
 		msg += "```"
@@ -76,7 +76,7 @@ func sendMsg(discord *Discord, channel string, msg string) {
 	payload := new(CreateMessagePayload)	
 	payload.Content = msg
 
-	response, _ := CreateMessage(channel, payload)
+	response, _ := discord.CreateMessage(channel, payload)
 	
 	if response.StatusCode != 200 {
 		log.Printf("Error: %s", response.Status)
