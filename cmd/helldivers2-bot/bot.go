@@ -9,6 +9,8 @@ import (
 )
 
 func StartBot(discord *Discord, settings *Settings) {
+	log.Printf("Starting bot...")
+
 	for {
 		showCampaign(discord, settings)
 		time.Sleep(time.Hour)

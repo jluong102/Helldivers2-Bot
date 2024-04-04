@@ -19,14 +19,14 @@ type Cmdline struct {
 }
 
 // Load in cmdline args
-func LoadArgs(cmdline *Cmdline) {
+func loadArgss(cmdline *Cmdline) {
 	flag.StringVar(&cmdline.Config, "config", "./config.json", "Config file to use")
 
 	flag.Parse()
 }
 
 // Load in settings from config
-func LoadSettings(config string, settings *Settings) {
+func loadSettings(config string, settings *Settings) {
 	// Confirm valid config file path
 	if _, err := os.Stat(config); err != nil {
 		log.Printf("File not found %s\nError: %s", config, err)
@@ -49,7 +49,7 @@ func LoadSettings(config string, settings *Settings) {
 }
 
 // Validate all settings from config are valid
-func CheckSettings(settings *Settings) {
+func checkSettings(settings *Settings) {
 	if len(settings.Channels) < 1 {
 		log.Printf("Must set at least one channel with \"channels\"")
 	} else if len(settings.Token) < 1 {
@@ -65,9 +65,9 @@ func main() {
 	settings := new(Settings)
 	cmdline := new(Cmdline)
 
-	LoadArgs(cmdline)
-	LoadSettings(cmdline.Config, settings)
-	CheckSettings(settings)
+	loadArgss(cmdline)
+	loadSettings(cmdline.Config, settings)
+	checkSettings(settings)
 
 	discord := CreateDiscord(settings.Token)
 	StartBot(discord, settings)
