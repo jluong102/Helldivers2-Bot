@@ -9,6 +9,7 @@ COPY cmd/. /pkg/cmd
 RUN apt update
 RUN apt install -y golang
 RUN apt install -y make
+RUN apt install -y curl
 
 WORKDIR /pkg
 RUN make
